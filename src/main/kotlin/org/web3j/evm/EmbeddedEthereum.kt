@@ -376,7 +376,7 @@ class EmbeddedEthereum(configuration: Configuration, private val operationTracer
     }
 
     fun ethBlockByHash(hash: String, fullTransactionObjects: Boolean): EthBlock.Block? {
-        val maybeBlockResult = if (fullTransactionObjects)
+        val maybeBlockResult = if (!fullTransactionObjects)
             blockchainQueries.blockByHashWithTxHashes(Hash.fromHexString(hash))
                 .map { tx -> blockResultFactory.transactionHash(tx) }
         else
@@ -387,7 +387,7 @@ class EmbeddedEthereum(configuration: Configuration, private val operationTracer
     }
 
     fun ethBlockByNumber(blockNumber: String, fullTransactionObjects: Boolean): EthBlock.Block? {
-        val maybeBlockResult = if (fullTransactionObjects)
+        val maybeBlockResult = if (!fullTransactionObjects)
             blockchainQueries.blockByNumberWithTxHashes(hexToULong(blockNumber))
                 .map { tx -> blockResultFactory.transactionHash(tx) }
         else
